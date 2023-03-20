@@ -5,7 +5,6 @@ import com.example.sudokusolver.models.SudokuBoard;
 import com.example.sudokusolver.services.contracts.SudokuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,14 +21,6 @@ public class SudokuSolverController {
 
     @PostMapping("/solve")
     public SudokuBoard solve(@RequestBody SudokuBoard sudokuBoard) {
-//        int[][] board = sudokuBoard.getBoard();
-//        if (solveSudoku(board)) {
-//            sudokuBoard.setBoard(board);
-//            return sudokuBoard;
-//        } else {
-//            throw new ResponseStatusException(
-//                    HttpStatus.BAD_REQUEST, "Invalid Sudoku puzzle");
-//        }
         try {
             int[][] board = sudokuBoard.getPuzzle();
             sudokuService.solve(board);
