@@ -13,9 +13,13 @@ public class SudokuServiceImpl implements SudokuService {
 
 
     public void solve(int[][] board) {
-        SudokuBoard sudokuBoard = new SudokuBoard();
-        if (solveSudoku(board)) {
-            sudokuBoard.setPuzzle(board);
+        if (isValidSudoku(board)) {
+            SudokuBoard sudokuBoard = new SudokuBoard();
+            if (solveSudoku(board)) {
+                sudokuBoard.setPuzzle(board);
+            } else {
+                throw new InvalidInputException("The puzzle has no solution.");
+            }
         } else {
             throw new InvalidInputException("The puzzle is not valid.");
         }
@@ -74,6 +78,77 @@ public class SudokuServiceImpl implements SudokuService {
             for (int c = boxCol; c < boxCol + BOX_SIZE; c++) {
                 if (board[r][c] == num) {
                     return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    public boolean isValidSudoku(int[][] board) {
+
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            if (!isValidRow(board, row)) {
+                return false;
+            }
+        }
+
+        for (int col = 0; col < BOARD_SIZE; col++) {
+            if (!isValidColumn(board, col)) {
+                return false;
+            }
+        }
+
+
+        for (int boxRow = 0; boxRow < BOARD_SIZE; boxRow += BOX_SIZE) {
+            for (int boxCol = 0; boxCol < BOARD_SIZE; boxCol += BOX_SIZE) {
+                if (!isValidBox(board, boxRow, boxCol)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public boolean isValidRow(int[][] board, int row) {
+        boolean[] used = new boolean[BOARD_SIZE];
+        for (int col = 0; col < BOARD_SIZE; col++) {
+            int num = board[row][col];
+            if (num != 0) {
+                if (used[num - 1]) {
+                    return false;
+                }
+                used[num - 1] = true;
+            }
+        }
+        return true;
+    }
+
+    public boolean isValidColumn(int[][] board, int col) {
+        boolean[] used = new boolean[BOARD_SIZE];
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            int num = board[row][col];
+            if (num != 0) {
+                if (used[num - 1]) {
+                    return false;
+                }
+                used[num - 1] = true;
+            }
+        }
+        return true;
+    }
+
+    public boolean isValidBox(int[][] board, int boxRow, int boxCol) {
+        boolean[] used = new boolean[BOARD_SIZE];
+        for (int row = boxRow; row < boxRow + BOX_SIZE; row++) {
+            for (int col = boxCol; col < boxCol + BOX_SIZE; col++) {
+                int num = board[row][col];
+                if (num != 0) {
+                    if (used[num - 1]) {
+                        return false;
+                    }
+                    used[num - 1] = true;
                 }
             }
         }
