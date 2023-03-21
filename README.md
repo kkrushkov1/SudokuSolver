@@ -14,6 +14,8 @@ This implementation uses Java, Spring Boot and Lombok.
 
 The solver uses a recursive backtracking algorithm to solve Sudoku puzzles. It first finds the next empty cell in the puzzle and then tries each possible value until a valid solution is found. If no solution can be found with a given value, the algorithm backtracks to the previous cell and tries the next value.
 
+The solution returns the solved puzzle as a JSON object with the same structure as the input.
+
 The solver includes error-checking to ensure that the input puzzle is valid and if it is not valid (e.g., it violates the rules of Sudoku), the solver returns a JSON error message.
 
 ## Example
@@ -21,7 +23,7 @@ The solver includes error-checking to ensure that the input puzzle is valid and 
 #### Input:
 
 `[`\
-`[5, 4, 0, 0, 0, 3, 9, 0, 0]`\
+`[5, 4, 0, 0, 0, 3, 9, 0, 0],`\
 `[0, 0, 0, 5, 0, 0, 3, 6, 0],`\
 `[0, 2, 0, 0, 0, 9, 4, 0, 0],`\
 `[4, 7, 6, 0, 0, 0, 0, 0, 5],`\
